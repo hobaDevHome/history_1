@@ -22,7 +22,7 @@
   }
 </style>
 <script src="libs/1.0.0/createjs.min.js"></script>
-<script src="index.js?1754055206622"></script>
+<script src="index.js?1754057403582"></script>
 <script>
 // Global Scripts
 	var wrongAnswers = 0 
@@ -33,7 +33,6 @@ var limit2 = 8 ;
 var limitAction = "";
 var allQuestions = [];
 var usedQuestions = 0
-var remainigQuestions = 15
 var wrongAnswers = 0 
 var correctAns = 0
 var score = 0;
@@ -120,7 +119,6 @@ function getNewQuestion(gameStage=null) {
     return;
   }
 	usedQuestions++;
-	remainigQuestions = 15 - usedQuestions
 	currentKing = availableKings[Math.floor(Math.random() * availableKings.length)];
 	let mainIndex = Math.floor(Math.random() * currentKing.works.length);
 	currentAchievment = currentKing.works[mainIndex];
@@ -136,6 +134,27 @@ function getNewQuestion(gameStage=null) {
 	currentAchievmentModal = kingsDataMap[achModal]
 	console.log("currentking",currentKing.title)
 }
+function countScore(gameStage){	
+	score = Math.ceil((correctAns/15)*100 );
+	if(correctAns > limit2){
+			limitAction="correct"
+			gameStage.gotoAndStop("correct")
+		}else if(correctAns > limit1){
+			limitAction="notgood"
+			gameStage.gotoAndStop("notgood")
+			}else if(correctAns <= limit1){
+			limitAction="wrong"
+			gameStage.gotoAndStop("wrong")
+		}	
+	reset()
+}
+function reset(){
+		wrongAnswers = 0 
+		score = 0;
+		correctAns = 0;	
+		usedQuestions = 0
+		kingsDataCopy = JSON.parse(JSON.stringify(kingsData));
+	}
 var soundsArray = []
 soundsArray.push({
 	id: "Write_answer",
@@ -199,6 +218,6 @@ function handleComplete(evt,comp) {
 		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:1024px; height:576px; position: absolute; left: 0px; top: 0px; display: none;">
 		</div>
 	</div>
-    <div id='_preload_div_' style='position:absolute; top:0; left:0; display: inline-block; height:576px; width: 1024px; text-align: center;'>	<span style='display: inline-block; height: 100%; vertical-align: middle;'></span>	<img src=images/_preloader.gif?1754055206623 style='vertical-align: middle; max-height: 100%'/></div>
+    <div id='_preload_div_' style='position:absolute; top:0; left:0; display: inline-block; height:576px; width: 1024px; text-align: center;'>	<span style='display: inline-block; height: 100%; vertical-align: middle;'></span>	<img src=images/_preloader.gif?1754057403582 style='vertical-align: middle; max-height: 100%'/></div>
 </body>
 </html>
