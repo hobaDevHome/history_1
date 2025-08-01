@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!--
+	NOTES:
+	1. All tokens are represented by '$' sign in the template.
+	2. You can write your code only wherever mentioned.
+	3. All occurrences of existing tokens will be replaced by their appropriate values.
+	4. Blank lines will be removed automatically.
+	5. Remove unnecessary comments before creating your template.
+-->
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="authoring-tool" content="Adobe_Animate_CC">
+<title>index</title>
+<!-- write your code here -->
+<style>
+  #animation_container, #_preload_div_ {
+	position:absolute;
+	margin:auto;
+	left:0;right:0;
+	top:0;bottom:0;
+  }
+</style>
+<script src="libs/1.0.0/createjs.min.js"></script>
+<script src="index.js?1754032330906"></script>
+<script>
+// Global Scripts
+	var soundsArray = []
+			soundsArray.push({
+				id: "Write_answer",
+				src: "Sfx/Write_answer.mp3"
+			})
+			soundsArray.push({
+				id: "Wrong_Answer",
+				src: "Sfx/Wrong_Answer.mp3"
+			})
+			createjs.Sound.registerSounds(soundsArray, "");
+var wrongAnswers = 0 
+var score = 0;
+var correctAns = 0;
+var limit1 = 5;
+var limit2 = 8 ;
+var limitAction = "";
+var allQuestions = [];
+var usedQuestions = 0
+var remainigQuestions = 15
+let currentKing = null;
+let currentAchievment = null;
+let currentHint = null;
+let currentAchievmentText = ""
+let currentHintText = ""
+let currentAchievmentModal = ""
+let currentHintTextMain = ""
+const kingsData = [
+  {
+    name: "k1",
+	title : "زوسر",
+    works: ["k1A1","k1A2"],    
+	hints: ["k1H1","k1H2"], 
+  },
+  {
+    name: "k2",
+	  title : "سنفرو",
+    works: ["k2A1","k2A2","k2A3","k2A4"],    
+	hints: ["k2H1","k2H2","k2H3", "k2H4"],    
+  },
+  {
+    name: "k3",
+	  title : "خوفو",
+      works: ["k3A1","k2A2","k2A3"],    
+	hints: ["k2H1","k2H2","k2H3"],  
+  },
+  {
+    name: "k4",
+	  title : "خفرع",
+   works: ["k4A1","k4A2"],    
+	hints: ["k4H1","k4H2"], 
+  },
+  {
+    name: "k5",
+	  title : "أوسركاف",
+    works: ["k5A1","k5A2"],    
+	hints: ["k5H1","k5H2"],  
+  },
+  {
+    name: "k6",
+	  title : "أوناس",
+    works: ["k6A1","k6A2"],    
+	hints: ["k6H1","k6H2"], 
+  },
+];
+var kingsDataCopy = JSON.parse(JSON.stringify(kingsData));
+function getNewQuestion(gameStage=null) {
+  const availableKings = kingsDataCopy.filter(k => k.works.length > 0);
+  if (availableKings.length === 0) {
+    console.log("✅ انتهت كل الأسئلة!");
+    return;
+  }
+	usedQuestions++;
+	remainigQuestions = 15 - usedQuestions
+	currentKing = availableKings[Math.floor(Math.random() * availableKings.length)];
+	let mainIndex = Math.floor(Math.random() * currentKing.works.length);
+	currentAchievment = currentKing.works[mainIndex];
+	currentKing.works.splice(mainIndex, 1);
+	const matchId = currentAchievment.replace("A", "H");
+	const hintOptions = currentKing.hints.filter(hint => hint !== matchId);
+	currentHint = hintOptions[Math.floor(Math.random() * hintOptions.length)] 
+	let hintMainId = currentHint.replace("H", "A");
+	let achModal = currentAchievment.replace("A", "H");
+	currentAchievmentText = kingsDataMap[currentAchievment]
+	currentHintText = kingsDataMap[currentHint]
+	currentHintTextMain = kingsDataMap[hintMainId]
+	currentAchievmentModal = kingsDataMap[achModal]
+	console.log("currentking",currentKing.title)
+}
+const kingsDataMap = {
+  k1A1: "أسست الأسرة الثالثة",
+  k1A2: "شيدت الهرم المدرج بسقارة",
+  k1H1: "أسس الأسرة الثالثة",
+  k1H2: "شيد الهرم المدرج بسقارة",
+  k2A1: "أسست الأسرة الرابعة",
+  k2A2: "لُقبت بالملك المحسن المحبوب",
+  k2A3: "أرسلت أسطولا بحريًا لفينيقيا",
+  k2A4: "أرسلت حملة لتأمين حدود مصر الجنوبية",
+  k2H1: "أسس الأسرة الرابعة",
+  k2H2: "لُقب بالملك المحسن المحبوب",
+  k2H3: "أرسل أسطولا بحريًا لفينيقيا",
+  k2H4: "أرسل حملة لتأمين حدود مصر الجنوبية",
+  k3A1: "ثانى ملوك الأسرة الرابعة",
+  k3A2: "شيدت الهرم الأكبر بالجيزة",
+  k3A3: "ازدهرت فى عهدى التجارة الخارجية",
+  k3H1: "هو ثانى ملوك الأسرة الرابعة",
+  k3H2: "شيد الهرم الأكبر بالجيزة",
+  k3H3: "ازدهرت فى عهده التجارة الخارجية",
+  k4A1: "صاحب الهرم الأوسط بالجيزة",
+  k4A2: "أمرت بنحت تمثال أبو الهول",
+  k4H1: "هو صاحب الهرم الأوسط بالجيزة",
+  k4H2: "أمر بنحت تمثال أبو الهول",
+  k5A1: "أسست الأسرة الخامسة",
+  k5A2: "أول من شيد معابد الشمس المكشوفة",
+  k5H1: "أسس الأسرة الخامسة",
+  k5H2: "هو أول من شيد معابد الشمس المكشوفة",
+  k6A1: "آخر ملوك الأسرة الخامسة",
+  k6A2: "أول من كتب نصوص الأهرام",
+  k6H1: "هو آخر ملوك الأسرة الخامسة",
+  k6H2: "هو أول من كتب نصوص الأهرام",
+};</script>
+<script>
+var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	var comp=AdobeAn.getComposition("F02C327DE1659545950DE5C88C99A168");
+	var lib=comp.getLibrary();
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", function(evt){handleFileLoad(evt,comp)});
+	loader.addEventListener("complete", function(evt){handleComplete(evt,comp)});
+	var lib=comp.getLibrary();
+	loader.loadManifest(lib.properties.manifest);
+}
+function handleFileLoad(evt, comp) {
+	var images=comp.getImages();	
+	if (evt && (evt.item.type == "image")) { images[evt.item.id] = evt.result; }	
+}
+function handleComplete(evt,comp) {
+	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+	var lib=comp.getLibrary();
+	var ss=comp.getSpriteSheet();
+	var queue = evt.target;
+	var ssMetadata = lib.ssMetadata;
+	for(i=0; i<ssMetadata.length; i++) {
+		ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
+	}
+	var preloaderDiv = document.getElementById("_preload_div_");
+	preloaderDiv.style.display = 'none';
+	canvas.style.display = 'block';
+	exportRoot = new lib.index();
+	stage = new lib.Stage(canvas);
+	stage.enableMouseOver();	
+	//Registers the "tick" event listener.
+	fnStartAnimation = function() {
+		stage.addChild(exportRoot);
+		createjs.Ticker.framerate = lib.properties.fps;
+		createjs.Ticker.addEventListener("tick", stage);
+	}	    
+	//Code to support hidpi screens and responsive scaling.
+	AdobeAn.makeResponsive(true,'both',true,1,[canvas,preloaderDiv,anim_container,dom_overlay_container]);	
+	AdobeAn.compositionLoaded(lib.properties.id);
+	fnStartAnimation();
+}
+</script>
+<!-- write your code here -->
+</head>
+<body onload="init();" style="margin:0px;">
+	<div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:1024px; height:576px">
+		<canvas id="canvas" width="1024" height="576" style="position: absolute; display: none; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:1024px; height:576px; position: absolute; left: 0px; top: 0px; display: none;">
+		</div>
+	</div>
+    <div id='_preload_div_' style='position:absolute; top:0; left:0; display: inline-block; height:576px; width: 1024px; text-align: center;'>	<span style='display: inline-block; height: 100%; vertical-align: middle;'></span>	<img src=images/_preloader.gif?1754032330906 style='vertical-align: middle; max-height: 100%'/></div>
+</body>
+</html>
