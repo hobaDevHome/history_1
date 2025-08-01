@@ -22,7 +22,7 @@
   }
 </style>
 <script src="libs/1.0.0/createjs.min.js"></script>
-<script src="index.js?1754061742788"></script>
+<script src="index.js?1754076687734"></script>
 <script>
 // Global Scripts
 	var wrongAnswers = 0 
@@ -50,15 +50,15 @@ const kingsData = [
   },
   {
     name: "k2",
-	  title : "سنفرو",
+	title : "سنفرو",
     works: ["k2A1","k2A2","k2A3","k2A4"],    
 	hints: ["k2H1","k2H2","k2H3", "k2H4"],    
   },
   {
     name: "k3",
 	  title : "خوفو",
-      works: ["k3A1","k2A2","k2A3"],    
-	hints: ["k2H1","k2H2","k2H3"],  
+      works: ["k3A1","k3A2","k3A3"],    
+	hints: ["k3H1","k3H2","k3H3"],  
   },
   {
     name: "k4",
@@ -74,7 +74,7 @@ const kingsData = [
   },
   {
     name: "k6",
-	  title : "أوناس",
+	title : "أوناس",
     works: ["k6A1","k6A2"],    
 	hints: ["k6H1","k6H2"], 
   },
@@ -135,6 +135,9 @@ function getNewQuestion(gameStage=null) {
 	achTextModal = kingsDataMap[achCodeMain.replace("A", "H")]
 	hintTextMain = kingsDataMap[hintCodeModal.replace("H", "A")]
 	hintTextModal = kingsDataMap[hintCodeModal]
+	console.log("currentking",currentKing)
+	console.log("achCodeMain",achCodeMain)
+	console.log("hintCodeModal",hintCodeModal)
 }
 function countScore(gameStage){	
 	score = Math.ceil((correctAns/15)*100 );
@@ -220,6 +223,6 @@ function handleComplete(evt,comp) {
 		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:1024px; height:576px; position: absolute; left: 0px; top: 0px; display: none;">
 		</div>
 	</div>
-    <div id='_preload_div_' style='position:absolute; top:0; left:0; display: inline-block; height:576px; width: 1024px; text-align: center;'>	<span style='display: inline-block; height: 100%; vertical-align: middle;'></span>	<img src=images/_preloader.gif?1754061742789 style='vertical-align: middle; max-height: 100%'/></div>
+    <div id='_preload_div_' style='position:absolute; top:0; left:0; display: inline-block; height:576px; width: 1024px; text-align: center;'>	<span style='display: inline-block; height: 100%; vertical-align: middle;'></span>	<img src=images/_preloader.gif?1754076687735 style='vertical-align: middle; max-height: 100%'/></div>
 </body>
 </html>
